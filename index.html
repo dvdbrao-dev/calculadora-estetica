@@ -81,35 +81,89 @@
       transform: translateY(-1px);
     }
 
+    #pdf-report {
+      display: none;
+    }
+
     @media print {
       nav,
+      main,
       .no-print {
         display: none !important;
       }
 
       body {
         background: #fff !important;
-      }
-
-      main {
-        max-width: 100% !important;
-        padding: 0 !important;
-      }
-
-      .print-full {
-        grid-template-columns: 1fr !important;
-      }
-
-      .print-card {
-        position: static !important;
-        box-shadow: none !important;
-        border: 1px solid #e5e7eb !important;
         color: #111827 !important;
-        background: #ffffff !important;
       }
 
-      .print-card * {
-        color: inherit !important;
+      #pdf-report {
+        display: block !important;
+      }
+
+      .report-page {
+        padding: 24px;
+        font-family: 'Outfit', sans-serif;
+        color: #111827;
+      }
+
+      .report-box {
+        border: 1px solid #e5e7eb;
+        border-radius: 18px;
+        padding: 18px;
+        margin-bottom: 16px;
+      }
+
+      .report-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .report-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #6b7280;
+        margin-bottom: 4px;
+      }
+
+      .report-value {
+        font-size: 18px;
+        font-weight: 700;
+        color: #111827;
+      }
+
+      .report-title {
+        font-size: 28px;
+        font-weight: 800;
+        margin-bottom: 6px;
+      }
+
+      .report-subtitle {
+        color: #6b7280;
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+
+      .report-big {
+        font-size: 44px;
+        font-weight: 900;
+        line-height: 1;
+      }
+
+      .report-muted {
+        color: #6b7280;
+        font-size: 13px;
+      }
+
+      .report-list {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .report-list li {
+        margin-bottom: 6px;
       }
     }
   </style>
@@ -137,8 +191,6 @@
 
   <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-10 sm:pb-14">
     <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 lg:gap-8 print-full">
-
-      <!-- IZQUIERDA -->
       <section class="xl:col-span-7 space-y-6 sm:space-y-8">
         <header class="card-glass rounded-[2rem] border border-white/70 shadow-soft p-6 sm:p-8">
           <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 text-white text-xs font-semibold tracking-wide mb-4">
@@ -156,7 +208,6 @@
           </p>
         </header>
 
-        <!-- Paso 1 -->
         <section class="card-glass rounded-[2rem] border border-white/70 shadow-soft p-5 sm:p-6">
           <h2 class="text-sm font-bold uppercase tracking-[0.16em] text-slate-400 mb-4 flex items-center">
             <i data-lucide="layout-panel-top" class="w-4 h-4 mr-2"></i>
@@ -181,7 +232,6 @@
           </div>
         </section>
 
-        <!-- Paso 2 -->
         <section class="card-glass rounded-[2rem] border border-white/70 shadow-soft p-5 sm:p-6">
           <h2 class="text-sm font-bold uppercase tracking-[0.16em] text-slate-400 mb-4 flex items-center">
             <i data-lucide="activity" class="w-4 h-4 mr-2"></i>
@@ -211,7 +261,6 @@
           </div>
         </section>
 
-        <!-- Paso 3 y 4 -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           <div class="card-glass rounded-[2rem] border border-white/70 shadow-soft p-5 sm:p-6">
             <h2 class="text-sm font-bold uppercase tracking-[0.16em] text-slate-400 mb-4 flex items-center">
@@ -253,7 +302,6 @@
         </section>
       </section>
 
-      <!-- DERECHA -->
       <aside class="xl:col-span-5">
         <div class="print-card sticky top-6 rounded-[2rem] bg-slate-950 text-white shadow-softxl overflow-hidden border border-slate-800">
           <div class="absolute -top-10 -right-10 w-40 h-40 bg-brand-500/25 blur-3xl rounded-full"></div>
@@ -298,12 +346,12 @@
             </div>
 
             <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3 no-print">
-              <button onclick="window.print()" class="w-full py-4 rounded-2xl bg-white text-slate-900 font-bold hover:bg-slate-100 transition flex items-center justify-center">
+              <button onclick="printReport()" class="w-full py-4 rounded-2xl bg-white text-slate-900 font-bold hover:bg-slate-100 transition flex items-center justify-center">
                 <i data-lucide="printer" class="w-5 h-5 mr-2"></i>
                 Guardar PDF
               </button>
 
-              <button onclick="copySummary()" class="w-full py-4 rounded-2xl bg-brand-500 text-white font-bold hover:bg-brand-600 transition flex items-center justify-center">
+              <button onclick="copySummary(event)" class="w-full py-4 rounded-2xl bg-brand-500 text-white font-bold hover:bg-brand-600 transition flex items-center justify-center">
                 <i data-lucide="copy" class="w-5 h-5 mr-2"></i>
                 Copiar resumen
               </button>
@@ -319,6 +367,67 @@
       </aside>
     </div>
   </main>
+
+  <section id="pdf-report">
+    <div class="report-page">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; gap:16px;">
+        <div>
+          <div class="report-title">Informe de Potencia Recomendada</div>
+          <div class="report-subtitle">Mejoradora Granada · Calculadora orientativa para centros de estética</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="report-label">Fecha</div>
+          <div class="report-value" id="pdf-date"></div>
+        </div>
+      </div>
+
+      <div class="report-box">
+        <div class="report-label">Tramo recomendado</div>
+        <div class="report-big" id="pdf-tramo"></div>
+        <div class="report-muted" style="margin-top:8px;">Resultado orientativo según simultaneidad y margen de seguridad.</div>
+      </div>
+
+      <div class="report-grid">
+        <div class="report-box">
+          <div class="report-label">Cálculo real</div>
+          <div class="report-value" id="pdf-real"></div>
+        </div>
+        <div class="report-box">
+          <div class="report-label">Margen aplicado</div>
+          <div class="report-value">10%</div>
+        </div>
+        <div class="report-box">
+          <div class="report-label">Tamaño del local</div>
+          <div class="report-value" id="pdf-m2"></div>
+        </div>
+        <div class="report-box">
+          <div class="report-label">Cabinas / puestos</div>
+          <div class="report-value" id="pdf-cabinas"></div>
+        </div>
+        <div class="report-box">
+          <div class="report-label">Secadores de mano</div>
+          <div class="report-value" id="pdf-secadores"></div>
+        </div>
+        <div class="report-box">
+          <div class="report-label">Equipos seleccionados</div>
+          <div class="report-value" id="pdf-devices"></div>
+        </div>
+      </div>
+
+      <div class="report-box">
+        <div class="report-label">Observación</div>
+        <div class="report-value" id="pdf-advice" style="font-size:16px; line-height:1.5;"></div>
+      </div>
+
+      <div class="report-box">
+        <div class="report-label">Nota</div>
+        <div class="report-muted">
+          Esta estimación es orientativa. Para una recomendación más precisa conviene revisar potencia actual contratada,
+          consumos históricos, simultaneidad real, tipo de maquinaria y características de la instalación.
+        </div>
+      </div>
+    </div>
+  </section>
 
   <script>
     let state = {
@@ -352,6 +461,23 @@
       state.devices[key] = !state.devices[key];
       btn.classList.toggle('active');
       calculate();
+    }
+
+    function getCurrentValues() {
+      const real = document.getElementById('res-real').innerText;
+      const tramo = document.getElementById('res-tramo').innerText;
+      const advice = document.getElementById('res-advice').innerText;
+      return { real, tramo, advice };
+    }
+
+    function buildSelectedDevices() {
+      const selected = [];
+      if (state.devices.termo) selected.push('Termo eléctrico');
+      if (state.devices.laser) selected.push('Láser / IPL');
+      if (state.devices.autoclave) selected.push('Autoclave');
+      if (state.devices.crio) selected.push('Criolipólisis');
+      if (state.secadores > 0) selected.push(`${state.secadores} secador(es) de mano`);
+      return selected.length ? selected.join(', ') : 'Equipamiento básico sin maquinaria adicional';
     }
 
     function calculate() {
@@ -389,7 +515,27 @@
       }
     }
 
-    function copySummary() {
+    function fillReport() {
+      const { real, tramo, advice } = getCurrentValues();
+      const now = new Date();
+      const fecha = now.toLocaleDateString('es-ES') + ' ' + now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+
+      document.getElementById('pdf-date').innerText = fecha;
+      document.getElementById('pdf-tramo').innerText = `${tramo} kW`;
+      document.getElementById('pdf-real').innerText = real;
+      document.getElementById('pdf-m2').innerText = `${state.m2} m²`;
+      document.getElementById('pdf-cabinas').innerText = String(state.cabinas);
+      document.getElementById('pdf-secadores').innerText = String(state.secadores);
+      document.getElementById('pdf-devices').innerText = buildSelectedDevices();
+      document.getElementById('pdf-advice').innerText = advice;
+    }
+
+    function printReport() {
+      fillReport();
+      setTimeout(() => window.print(), 150);
+    }
+
+    function copySummary(event) {
       const text = `Calculadora de Potencia - Mejoradora Granada
 Tramo recomendado: ${document.getElementById('res-tramo').innerText} kW
 Cálculo real: ${document.getElementById('res-real').innerText}
