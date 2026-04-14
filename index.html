@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de Potencia | Mejoradora Granada</title>
+  <meta name="description" content="Calculadora orientativa de potencia recomendada para centros de estética, peluquerías y negocios con equipamiento eléctrico." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              50: '#fdf2f8',
+              100: '#fce7f3',
+              200: '#fbcfe8',
+              300: '#f9a8d4',
+              400: '#f472b6',
+              500: '#ec4899',
+              600: '#db2777',
+              700: '#be185d',
+              800: '#9d174d',
+              900: '#831843'
+            }
+          },
+          boxShadow: {
+            soft: '0 10px 30px rgba(15, 23, 42, 0.08)',
+            softxl: '0 20px 50px rgba(15, 23, 42, 0.14)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Outfit', sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(236,72,153,0.10), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(99,102,241,0.10), transparent 24%),
+        #f8fafc;
+    }
+
+    .card-glass {
+      background: rgba(255,255,255,0.76);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .option-btn {
+      border: 2px solid #e2e8f0;
+      border-radius: 1.25rem;
+      background: #ffffff;
+      transition: all .2s ease;
+    }
+
+    .option-btn:hover {
+      border-color: #f472b6;
+      background: #fdf2f8;
+      transform: translateY(-1px);
+    }
+
+    .option-btn.active {
+      border-color: #ec4899;
+      background: #fce7f3;
+      box-shadow: 0 0 0 4px rgba(236,72,153,0.12);
+    }
+
+    .counter-btn {
+      transition: all .18s ease;
+    }
+
+    .counter-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    @media print {
+      nav,
+      .no-print {
+        display: none !important;
+      }
+
+      body {
+        background: #fff !important;
+      }
+
+      main {
+        max-width: 100% !important;
+        padding: 0 !important;
+      }
+
+      .print-full {
+        grid-template-columns: 1fr !important;
+      }
+
+      .print-card {
+        position: static !important;
+        box-shadow: none !important;
+        border: 1px solid #e5e7eb !important;
+        color: #111827 !important;
+        background: #ffffff !important;
+      }
+
+      .print-card * {
+        color: inherit !important;
+      }
+    }
+  </style>
+</head>
+<body class="text-slate-800 antialiased">
+
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 py-5">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-2xl bg-brand-500 text-white flex items-center justify-center shadow-soft">
+          <i data-lucide="zap" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <div class="text-lg sm:text-xl font-extrabold tracking-tight text-slate-900">Mejoradora Granada</div>
+          <div class="text-sm text-slate-500">Consultoría energética orientada a negocio real</div>
+        </div>
+      </div>
+
+      <div class="inline-flex items-center w-fit gap-2 text-xs font-bold px-3 py-2 bg-brand-100 text-brand-700 rounded-full uppercase tracking-[0.18em]">
+        <i data-lucide="badge-check" class="w-4 h-4"></i>
+        Calculadora orientativa
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-10 sm:pb-14">
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 lg:gap-8 print-full">
+
+      <!-- IZQUIERDA -->
+      <section class="xl:col-span-7 space-y-6 sm:space-y-8">
+        <header class="card-glass rounded-[2rem] border border-white/70 shadow-soft p-6 sm:p-8">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 text-white text-xs font-semibold tracking-wide mb-4">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            Potencia eléctrica recomendada
+          </div>
+
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
+            Calculadora de Potencia
+          </h1>
+
+          <p class="mt-4 text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed">
+            Configura el inventario del centro y obtén una recomendación rápida del tramo de potencia a contratar.
+            Es una estimación orientativa para ayudarte a visualizar si estás corto, equilibrado o sobredimensionado.
+          </p>
+        </header>
+
+        <!-- Paso 1 -->
+        <section class="card-glass rounded-[2rem] border border-white/70 shadow-soft p-5 sm:p-6">
+          <h2 class="text-sm font-bold uppercase tracking-[0.16em] text-slate-400 mb-4 flex items-center">
+            <i data-lucide="layout-panel-top" class="w-4 h-4 mr-2"></i>
+            1. Tamaño del local
+          </h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <button onclick="setSize(40, this)" class="option-btn active p-5 text-left">
+              <div class="text-lg font-bold text-slate-900">Pequeño</div>
+              <div class="text-sm text-slate-500 mt-1">Hasta 40 m²</div>
+            </button>
+
+            <button onclick="setSize(80, this)" class="option-btn p-5 text-left">
+              <div class="text-lg font-bold text-slate-900">Mediano</div>
+              <div class="text-sm text-slate-500 mt-1">40 a 90 m²</div>
+            </button>
+
+            <button onclick="setSize(150, this)" class="option-btn p-5 text-left">
+              <div class="text-lg font-bold text-slate-900">Grande</div>
+              <div class="text-sm text-slate-500 mt-1">Más de 90 m²</div>
+            </button>
+          </div>
+        </section>
+
+        <!-- Paso 2 -->
+        <section class="card-glass rounded-[2rem] border border-white/70 shadow-soft p-5 sm:p-6">
+          <h2 class="text-sm font-bold uppercase tracking-[0.16em] text-slate-400 mb-4 flex items-center">
+            <i data-lucide="activity" class="w-4 h-4 mr-2"></i>
+            2. Equipamiento clave
+          </h2>
+
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <button onclick="toggleDevice('termo', this)" class="option-btn p-4 sm:p-5 flex flex-col items-center justify-center text-center">
+              <i data-lucide="droplets" class="w-6 h-6 mb-2 text-slate-700"></i>
+              <span class="text-sm sm:text-base font-semibold text-slate-900">Termo eléctrico</span>
+            </button>
+
+            <button onclick="toggleDevice('laser', this)" class="option-btn p-4 sm:p-5 flex flex-col items-center justify-center text-center">
+              <i data-lucide="sun-medium" class="w-6 h-6 mb-2 text-slate-700"></i>
+              <span class="text-sm sm:text-base font-semibold text-slate-900">Láser / IPL</span>
+            </button>
+
+            <button onclick="toggleDevice('autoclave', this)" class="option-btn p-4 sm:p-5 flex flex-col items-center justify-center text-center">
+              <i data-lucide="shield-check" class="w-6 h-6 mb-2 text-slate-700"></i>
+              <span class="text-sm sm:text-base font-semibold text-slate-900">Autoclave</span>
+            </button>
+
+            <button onclick="toggleDevice('crio', this)" class="option-btn p-4 sm:p-5 flex flex-col items-center justify-center text-center">
+              <i data-lucide="snowflake" class="w-6 h-6 mb-2 text-slate-700"></i>
+              <span class="text-sm sm:text-base font-semibold text-slate-900">Criolipólisis</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Paso 3 y 4 -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          <div class="card-glass rounded-[2rem] border border-white/70 shadow-soft p-5 sm:p-6">
+            <h2 class="text-sm font-bold uppercase tracking-[0.16em] text-slate-400 mb-4 flex items-center">
+              <i data-lucide="door-open" class="w-4 h-4 mr-2"></i>
+              3. Cabinas / puestos
+            </h2>
+
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <div class="text-sm text-slate-500">Número de puestos de trabajo simultáneo</div>
+              </div>
+
+              <div class="flex items-center bg-white border border-slate-200 p-2 rounded-2xl shadow-sm">
+                <button onclick="updateCount('cabinas', -1)" class="counter-btn w-11 h-11 flex items-center justify-center bg-slate-100 rounded-xl hover:bg-slate-200 text-slate-900 text-xl font-bold">−</button>
+                <span id="count-cabinas" class="w-16 text-center font-extrabold text-2xl text-slate-900">1</span>
+                <button onclick="updateCount('cabinas', 1)" class="counter-btn w-11 h-11 flex items-center justify-center bg-brand-500 text-white rounded-xl hover:bg-brand-600 text-xl font-bold">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-glass rounded-[2rem] border border-white/70 shadow-soft p-5 sm:p-6">
+            <h2 class="text-sm font-bold uppercase tracking-[0.16em] text-slate-400 mb-4 flex items-center">
+              <i data-lucide="wind" class="w-4 h-4 mr-2"></i>
+              4. Secadores de mano
+            </h2>
+
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <div class="text-sm text-slate-500">Secadores con posible uso simultáneo</div>
+              </div>
+
+              <div class="flex items-center bg-white border border-slate-200 p-2 rounded-2xl shadow-sm">
+                <button onclick="updateCount('secadores', -1)" class="counter-btn w-11 h-11 flex items-center justify-center bg-slate-100 rounded-xl hover:bg-slate-200 text-slate-900 text-xl font-bold">−</button>
+                <span id="count-secadores" class="w-16 text-center font-extrabold text-2xl text-slate-900">0</span>
+                <button onclick="updateCount('secadores', 1)" class="counter-btn w-11 h-11 flex items-center justify-center bg-brand-500 text-white rounded-xl hover:bg-brand-600 text-xl font-bold">+</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- DERECHA -->
+      <aside class="xl:col-span-5">
+        <div class="print-card sticky top-6 rounded-[2rem] bg-slate-950 text-white shadow-softxl overflow-hidden border border-slate-800">
+          <div class="absolute -top-10 -right-10 w-40 h-40 bg-brand-500/25 blur-3xl rounded-full"></div>
+          <div class="absolute bottom-0 left-0 w-32 h-32 bg-indigo-500/10 blur-3xl rounded-full"></div>
+
+          <div class="relative p-6 sm:p-8">
+            <div class="flex items-center justify-between gap-4 mb-8">
+              <div>
+                <div class="text-brand-300 text-xs font-bold uppercase tracking-[0.22em]">Recomendación técnica</div>
+                <div class="text-sm text-slate-400 mt-2">Resultado orientativo según simultaneidad y margen de seguridad</div>
+              </div>
+              <div class="hidden sm:flex w-12 h-12 rounded-2xl bg-white/10 items-center justify-center">
+                <i data-lucide="badge-percent" class="w-6 h-6 text-brand-300"></i>
+              </div>
+            </div>
+
+            <div class="rounded-[1.75rem] bg-white/5 border border-white/10 p-6 text-center">
+              <div class="text-slate-400 text-xs sm:text-sm uppercase tracking-[0.18em] mb-2">Tramo recomendado</div>
+              <div class="flex items-end justify-center gap-2">
+                <span id="res-tramo" class="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight">4.60</span>
+                <span class="text-xl sm:text-2xl font-bold text-brand-400 mb-2">kW</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 sm:gap-4 mt-5">
+              <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
+                <div class="text-[11px] sm:text-xs uppercase tracking-[0.16em] text-slate-500 mb-1">Cálculo real</div>
+                <div id="res-real" class="text-lg sm:text-xl font-bold text-slate-100">3.82 kW</div>
+              </div>
+
+              <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
+                <div class="text-[11px] sm:text-xs uppercase tracking-[0.16em] text-slate-500 mb-1">Margen seguridad</div>
+                <div class="text-lg sm:text-xl font-bold text-slate-100">10%</div>
+              </div>
+            </div>
+
+            <div id="alert-box" class="mt-5 rounded-2xl border border-brand-400/20 bg-brand-400/10 p-4 flex items-start gap-3">
+              <i data-lucide="info" class="w-5 h-5 text-brand-300 mt-0.5 flex-shrink-0"></i>
+              <p id="res-advice" class="text-sm leading-relaxed text-slate-200">
+                Este tramo es el estándar para un centro pequeño con equipamiento básico.
+              </p>
+            </div>
+
+            <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3 no-print">
+              <button onclick="window.print()" class="w-full py-4 rounded-2xl bg-white text-slate-900 font-bold hover:bg-slate-100 transition flex items-center justify-center">
+                <i data-lucide="printer" class="w-5 h-5 mr-2"></i>
+                Guardar PDF
+              </button>
+
+              <button onclick="copySummary()" class="w-full py-4 rounded-2xl bg-brand-500 text-white font-bold hover:bg-brand-600 transition flex items-center justify-center">
+                <i data-lucide="copy" class="w-5 h-5 mr-2"></i>
+                Copiar resumen
+              </button>
+            </div>
+
+            <div class="mt-6 pt-5 border-t border-white/10">
+              <div class="text-xs text-slate-500 leading-relaxed">
+                Estimación orientativa. Para afinar una recomendación real conviene revisar potencia actual, histórico de consumo, simultaneidad real y tipo de instalación.
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    let state = {
+      m2: 40,
+      cabinas: 1,
+      secadores: 0,
+      devices: {
+        termo: false,
+        laser: false,
+        autoclave: false,
+        crio: false
+      }
+    };
+
+    const TRAMOS = [3.45, 4.60, 5.75, 6.90, 8.05, 9.20, 10.35, 11.50, 14.49];
+
+    function setSize(val, btn) {
+      state.m2 = val;
+      document.querySelectorAll('[onclick^="setSize"]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      calculate();
+    }
+
+    function updateCount(key, delta) {
+      state[key] = Math.max(0, state[key] + delta);
+      document.getElementById(`count-${key}`).innerText = state[key];
+      calculate();
+    }
+
+    function toggleDevice(key, btn) {
+      state.devices[key] = !state.devices[key];
+      btn.classList.toggle('active');
+      calculate();
+    }
+
+    function calculate() {
+      let base_kw = (state.m2 * 50 / 1000) + (state.cabinas * 0.3);
+
+      let machines_kw = 0;
+      if (state.devices.termo) machines_kw += 2.0;
+      if (state.devices.laser) machines_kw += 2.5;
+      if (state.devices.autoclave) machines_kw += 1.8;
+      if (state.devices.crio) machines_kw += 1.5;
+      machines_kw += (state.secadores * 2.0);
+
+      let simultaneous = (base_kw * 0.85) + (machines_kw * 0.6);
+      let final = simultaneous * 1.10;
+
+      let tramoSugerido = TRAMOS.find(t => t >= final) || (Math.ceil(final * 10) / 10).toFixed(2);
+
+      updateUI(final, tramoSugerido);
+    }
+
+    function updateUI(real, tramo) {
+      document.getElementById('res-real').innerText = real.toFixed(2) + ' kW';
+      document.getElementById('res-tramo').innerText = tramo;
+
+      const advice = document.getElementById('res-advice');
+
+      if (tramo <= 4.6) {
+        advice.innerText = "Potencia ajustada para un centro pequeño o un puesto de trabajo con equipamiento básico.";
+      } else if (tramo <= 6.9) {
+        advice.innerText = "Tramo adecuado para centros con varias cabinas activas o presencia de maquinaria de alto consumo como láser.";
+      } else if (tramo <= 9.2) {
+        advice.innerText = "Configuración pensada para negocios con bastante simultaneidad y varios equipos funcionando a la vez.";
+      } else {
+        advice.innerText = "Atención: conviene revisar instalación, picos de arranque y posible necesidad de una configuración más exigente.";
+      }
+    }
+
+    function copySummary() {
+      const text = `Calculadora de Potencia - Mejoradora Granada
+Tramo recomendado: ${document.getElementById('res-tramo').innerText} kW
+Cálculo real: ${document.getElementById('res-real').innerText}
+Cabinas/Puestos: ${state.cabinas}
+Secadores: ${state.secadores}
+Local: ${state.m2} m²
+Termo: ${state.devices.termo ? 'Sí' : 'No'}
+Láser/IPL: ${state.devices.laser ? 'Sí' : 'No'}
+Autoclave: ${state.devices.autoclave ? 'Sí' : 'No'}
+Criolipólisis: ${state.devices.crio ? 'Sí' : 'No'}`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = event.currentTarget;
+        const old = btn.innerHTML;
+        btn.innerHTML = '<i data-lucide="check" class="w-5 h-5 mr-2"></i>Copiado';
+        lucide.createIcons();
+        setTimeout(() => {
+          btn.innerHTML = old;
+          lucide.createIcons();
+        }, 1500);
+      });
+    }
+
+    lucide.createIcons();
+    calculate();
+  </script>
+</body>
+</html>
